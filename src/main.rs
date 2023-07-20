@@ -33,7 +33,7 @@ fn main() {
                     window.window().request_redraw();
                 }
                 Event::RedrawRequested(_) => {
-                    renderer.update();
+                    renderer.render();
                     window.swap_buffers().unwrap();
                 }
                 Event::WindowEvent { ref event, .. } => match event {
@@ -41,8 +41,10 @@ fn main() {
                         window.resize(*physical_size);
                     }
                     WindowEvent::CloseRequested => {
-                        renderer.exit();
+                        renderer.delete();
                         *control_flow = ControlFlow::Exit
+                    }
+                    WindowEvent::KeyboardInput{device_id: _, input: _, is_synthetic: _} => {
                     }
                     _ => (),
                 },
